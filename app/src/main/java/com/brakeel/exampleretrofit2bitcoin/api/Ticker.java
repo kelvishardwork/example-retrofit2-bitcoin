@@ -1,5 +1,7 @@
 package com.brakeel.exampleretrofit2bitcoin.api;
 
+import android.support.v7.widget.RecyclerView;
+
 /**
  * Created by Kelvis Borges on 05/02/2018.
  */

@@ -1,11 +1,15 @@
-package com.brakeel.exampleretrofit2bitcoin.main;
+package com.brakeel.exampleretrofit2bitcoin.ticket;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.brakeel.exampleretrofit2bitcoin.MainActivity;
 import com.brakeel.exampleretrofit2bitcoin.R;
 import com.brakeel.exampleretrofit2bitcoin.api.ApiClient;
 import com.brakeel.exampleretrofit2bitcoin.api.ApiService;
@@ -23,6 +27,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class TickerActivity extends AppCompatActivity {
+
+    private ViewHolder mViewHolder = new ViewHolder();
     private static final String TAG = "TickerActivity";
     private Ticker tickerModel;
     Context context;
@@ -35,6 +41,14 @@ public class TickerActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Cotações do Bitcoin");
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.mipmap.ic_launcher_bitcoin);
+        tickerModel = new Ticker();
+
+        this.mViewHolder.tvTickerLast = (TextView) findViewById(R.id.tvTickerLast);
+        this.mViewHolder.tvTickerHigh = (TextView) findViewById(R.id.tvTickerHigh);
+        this.mViewHolder.tvTickerLow = (TextView) findViewById(R.id.tvTickerLow);
+        this.mViewHolder.tvTickerVol = (TextView) findViewById(R.id.tvTickerVol);
+        this.mViewHolder.tvDate = (TextView) findViewById(R.id.tvDate);
+
 
         context = getApplicationContext();
         Gson gson = new GsonBuilder().registerTypeAdapter(Ticker.class, new TickerDeserialize()).create();
@@ -55,6 +69,7 @@ public class TickerActivity extends AppCompatActivity {
                 Ticker t = response.body();
                 if (t != null)
                     tickerModel = t;
+                setData();
                 Log.i(TAG, "Body: " + String.valueOf(response.body()));
                 switch (response.code()) {
                     case ApiClient.UNAUTHORIZED:
@@ -85,11 +100,23 @@ public class TickerActivity extends AppCompatActivity {
             }
         });
 
-
         //String btc = String.valueOf(DigitalCurrency.BTC);
+    }
+    private void setData() {
+        this.mViewHolder.tvTickerLast.setText("Último: " + String.valueOf(this.tickerModel.getLast()));
+        this.mViewHolder.tvTickerHigh.setText("Maior: " + String.valueOf(this.tickerModel.getHigh()));
+        this.mViewHolder.tvTickerLow.setText("Menor: " + String.valueOf(this.tickerModel.getLow()));
+        this.mViewHolder.tvTickerVol.setText("Vol. 24hs: " + String.valueOf(this.tickerModel.getVol()));
+        this.mViewHolder.tvDate.setText("Data: " + String.valueOf(this.tickerModel.getDate()));
+    }
+
+    private static class ViewHolder {
+        TextView tvTickerLast;
+        TextView tvTickerHigh;
+        TextView tvTickerLow;
+        TextView tvTickerVol;
+        TextView tvDate;
 
 
     }
-
-
 }
