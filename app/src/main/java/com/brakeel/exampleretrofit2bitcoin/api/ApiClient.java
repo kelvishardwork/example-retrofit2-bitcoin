@@ -6,7 +6,7 @@ package com.brakeel.exampleretrofit2bitcoin.api;
 
 public class ApiClient {
 
-    public static final String BASE_URL = "https://www.mercadobitcoin.net/api/BTC/";
+    public static final String BASE_URL = "https://www.mercadobitcoin.net/api/";
     public static final int SUCCESS = 200;
     public static final int UNAUTHORIZED = 401;
     public static final int FORBIDDEN = 403;

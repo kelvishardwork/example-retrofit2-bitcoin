@@ -10,13 +10,11 @@ import retrofit2.http.Path;
 
 public interface ApiService {
 
-/*
     @GET("{coin}/{method}/")
     Call<Ticker> getTicker(@Path("coin") String coin, @Path("method") String method);
-*/
 
-    @GET("ticker")
-    Call<Ticker> getTicker();
+  /*  @GET("ticker")
+    Call<Ticker> getTicker();*/
 
 
 }

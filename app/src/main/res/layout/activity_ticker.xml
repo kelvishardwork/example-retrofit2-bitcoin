@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:card="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context="com.brakeel.exampleretrofit2bitcoin.main.TickerActivity">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="2dp"
+        card:cardCornerRadius="4dp"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp">
+
+            <ImageView
+                android:id="@+id/ivBitcoin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical"
+                android:src="@mipmap/ic_launcher_bitcoin" />
+
+            <TextView
+                android:id="@+id/tvTitleCoin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="19dp"
+                android:layout_marginStart="19dp"
+                android:layout_toEndOf="@+id/ivBitcoin"
+                android:layout_toRightOf="@+id/ivBitcoin"
+                android:text="Bitcoin (BTC)"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvTickerLast"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvTitleCoin"
+                android:layout_marginLeft="19dp"
+                android:layout_marginStart="19dp"
+                android:layout_toEndOf="@+id/ivBitcoin"
+                android:layout_toRightOf="@+id/ivBitcoin"
+                android:text="Último: " />
+
+            <TextView
+                android:id="@+id/tvTickerHigh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvTickerLast"
+                android:layout_marginLeft="19dp"
+                android:layout_marginStart="19dp"
+                android:layout_toEndOf="@+id/ivBitcoin"
+                android:layout_toRightOf="@+id/ivBitcoin"
+                android:text="Maior: " />
+
+            <TextView
+                android:id="@+id/tvTickerLow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/tvTickerHigh"
+                android:layout_alignBottom="@+id/tvTickerHigh"
+                android:layout_alignLeft="@+id/tvTickerVol"
+                android:layout_alignStart="@+id/tvTickerVol"
+                android:text="Menor: " />
+
+            <TextView
+                android:id="@+id/tvTickerVol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/tvTickerLast"
+                android:layout_alignBottom="@+id/tvTickerLast"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginEnd="63dp"
+                android:layout_marginRight="63dp"
+                android:text="Em 24hs: " />
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

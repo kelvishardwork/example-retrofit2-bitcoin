@@ -1,14 +1,17 @@
 package com.brakeel.exampleretrofit2bitcoin.main;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.brakeel.exampleretrofit2bitcoin.R;
 import com.brakeel.exampleretrofit2bitcoin.api.ApiClient;
 import com.brakeel.exampleretrofit2bitcoin.api.ApiService;
 import com.brakeel.exampleretrofit2bitcoin.api.Ticker;
+import com.brakeel.exampleretrofit2bitcoin.entity.DigitalCurrency;
+import com.brakeel.exampleretrofit2bitcoin.entity.TypeMethod;
 import com.brakeel.exampleretrofit2bitcoin.util.TickerDeserialize;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -19,18 +22,21 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends AppCompatActivity {
-
-    TextView tvBtc, tvMethod;
-    private static final String TAG = "mainactivity";
+public class TickerActivity extends AppCompatActivity {
+    private static final String TAG = "TickerActivity";
+    private Ticker tickerModel;
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        tvBtc = (TextView) findViewById(R.id.tvBtc);
-        tvMethod = (TextView) findViewById(R.id.tvMethod);
+        setContentView(R.layout.activity_ticker);
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
+        getSupportActionBar().setTitle("Cotações do Bitcoin");
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.mipmap.ic_launcher_bitcoin);
 
+        context = getApplicationContext();
         Gson gson = new GsonBuilder().registerTypeAdapter(Ticker.class, new TickerDeserialize()).create();
 
         Retrofit retrofit = new Retrofit
@@ -40,15 +46,16 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         ApiService service = retrofit.create(ApiService.class);
-        //Call<Ticker> requestCatalog = service.getTicker(String.valueOf(DigitalCurrency.BTC), String.valueOf(TypeMethod.ticker));
-        Call<Ticker> requestTicker = service.getTicker();
+        Call<Ticker> requestTicker = service.getTicker(String.valueOf(DigitalCurrency.BTC), String.valueOf(TypeMethod.ticker));
+        //Call<Ticker> requestTicker = service.getTicker();
 
         requestTicker.enqueue(new Callback<Ticker>() {
             @Override
             public void onResponse(Call<Ticker> call, Response<Ticker> response) {
                 Ticker t = response.body();
                 if (t != null)
-                    Log.i(TAG, "Body: " + String.valueOf(response.body()));
+                    tickerModel = t;
+                Log.i(TAG, "Body: " + String.valueOf(response.body()));
                 switch (response.code()) {
                     case ApiClient.UNAUTHORIZED:
                         Log.i(TAG, "UNAUTHORIZED " + response.code());
@@ -73,7 +80,8 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Ticker> call, Throwable t) {
-                
+
+                Toast.makeText(context, "Por favor, ative a conexão à internet.", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -82,4 +90,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+
 }
