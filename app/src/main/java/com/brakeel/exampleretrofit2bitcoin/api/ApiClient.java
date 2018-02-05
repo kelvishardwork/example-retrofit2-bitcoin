@@ -6,7 +6,7 @@ package com.brakeel.exampleretrofit2bitcoin.api;
 
 public class ApiClient {
 
-    public static final String BASE_URL = "https://www.mercadobitcoin.net/api/";
+    public static final String BASE_URL = "https://www.mercadobitcoin.net/api/BTC/";
     public static final int SUCCESS = 200;
     public static final int UNAUTHORIZED = 401;
     public static final int FORBIDDEN = 403;
@@ -15,14 +15,7 @@ public class ApiClient {
     public static final int INTERNAL_SERVER_ERROR = 500;
     public static final int INTERNET_NOT_AVAILABLE = 901;
 
-    // Acronimo de moeda digital Bitcoin
-    public static final String COIN_BTC = "BTC";
-    public static final String COIN_LTC = "LTC";
-    public static final String COIN_BCH = "BCH";
 
-    public static final String METHOD_TICKER = "ticker";
-    public static final String METHOD_ORDERBOOK = "orderbook";
-    public static final String METHOD_TRADES = "trades";
 
 
 
