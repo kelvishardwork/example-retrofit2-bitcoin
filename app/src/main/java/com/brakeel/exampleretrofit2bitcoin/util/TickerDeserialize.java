@@ -1,6 +1,6 @@
 package com.brakeel.exampleretrofit2bitcoin.util;
 
-import com.brakeel.exampleretrofit2bitcoin.api.Ticker;
+import com.brakeel.exampleretrofit2bitcoin.entity.Ticker;
 import com.google.gson.Gson;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
