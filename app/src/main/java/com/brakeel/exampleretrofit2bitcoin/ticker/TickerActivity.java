@@ -68,6 +68,7 @@ public class TickerActivity extends AppCompatActivity {
         setOffLoading();
 
         requestAPI(gson);
+
         mViewHolder.row_ticker_list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,26 +90,26 @@ public class TickerActivity extends AppCompatActivity {
         requestTicker.enqueue(new Callback<Ticker>() {
             @Override
             public void onResponse(Call<Ticker> call, Response<Ticker> response) {
-
                 if (!response.isSuccessful()) {
+                    Log.i(TAG, "SEM SUCESSO " + response.code());
                     switch (response.code()) {
                         case ApiClient.UNAUTHORIZED:
-                            Log.i(TAG, "UNAUTHORIZED " + response.code());
+                            Toast.makeText(context, R.string.unauthorized, Toast.LENGTH_SHORT).show();
                             break;
                         case ApiClient.FORBIDDEN:
-                            Log.i(TAG, "FORBIDDEN " + response.code());
+                            Toast.makeText(context, R.string.forbidden, Toast.LENGTH_SHORT).show();
                             break;
                         case ApiClient.NOT_FOUND:
-                            Log.i(TAG, "NOT_FOUND " + response.code());
+                            Toast.makeText(context, R.string.not_Found, Toast.LENGTH_SHORT).show();
                             break;
                         case ApiClient.UNPROCESSABLE_ENTITY:
-                            Log.i(TAG, "UNPROCESSABLE_ENTITY " + response.code());
+                            Toast.makeText(context, R.string.unprocessable_entity, Toast.LENGTH_SHORT).show();
                             break;
                         case ApiClient.INTERNAL_SERVER_ERROR:
-                            Log.i(TAG, "INTERNAL_SERVER_ERROR " + response.code());
+                            Toast.makeText(context, R.string.internal_server_error, Toast.LENGTH_SHORT).show();
                             break;
                         case ApiClient.INTERNET_NOT_AVAILABLE:
-                            Log.i(TAG, "INTERNET_NOT_AVAILABLE " + response.code());
+                            Toast.makeText(context, R.string.internet_not_available, Toast.LENGTH_SHORT).show();
                             break;
                     }
 
@@ -118,9 +119,10 @@ public class TickerActivity extends AppCompatActivity {
                         Log.i(TAG, "Body: " + String.valueOf(response.body()));
                         tickerModel = t;
                         BTCRepository.addTicker(t);
+                        tickerModel = BTCRepository.getTicker();
+                        Log.i(TAG, "Banco : " + BTCRepository.getTicker().toString());
                         setOffLoading();
                         setData();
-
                     }
                 }
             }
@@ -154,7 +156,6 @@ public class TickerActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
-
         return super.onCreateOptionsMenu(menu);
     }
 

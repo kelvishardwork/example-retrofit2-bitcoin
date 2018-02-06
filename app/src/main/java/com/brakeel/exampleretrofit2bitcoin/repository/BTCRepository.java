@@ -25,16 +25,6 @@ public class BTCRepository extends SQLiteOpenHelper {
         super(context, Constants.BD_NOME, null, Constants.BD_VERSAO);
     }
 
-    private void setTickerFromCursor(Cursor cursor, Ticker ticker) {
-        ticker.setHigh(cursor.getDouble(cursor.getColumnIndex("HIGH")));
-        ticker.setLow(cursor.getDouble(cursor.getColumnIndex("LOW")));
-        ticker.setVol(cursor.getDouble(cursor.getColumnIndex("VOL")));
-        ticker.setLast(cursor.getDouble(cursor.getColumnIndex("LAST")));
-        ticker.setBuy(cursor.getDouble(cursor.getColumnIndex("BUY")));
-        ticker.setSell(cursor.getDouble(cursor.getColumnIndex("SELL")));
-        ticker.setDate(cursor.getInt(cursor.getColumnIndex("DATE")));
-    }
-
     @Override
     public void onCreate(SQLiteDatabase db) {
         StringBuilder query = new StringBuilder();
@@ -67,6 +57,7 @@ public class BTCRepository extends SQLiteOpenHelper {
 
 
     public void addTicker(Ticker ticker) {
+        truncateTicker();
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("HIGH", ticker.getHigh());
@@ -80,6 +71,7 @@ public class BTCRepository extends SQLiteOpenHelper {
     }
 
     public void addTrade(Trade trade) {
+        truncateTrade();
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("DATE", trade.getDate());
@@ -90,16 +82,23 @@ public class BTCRepository extends SQLiteOpenHelper {
         db.insert("TB_TRADES", null, contentValues);
     }
 
-    public Ticker getTicker(int idPessoa) {
+    public void truncateTrade() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM TB_TRADES");
+    }
+
+    public void truncateTicker() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("delete from TB_TICKERS");
+    }
+
+    public Ticker getTicker() {
         Ticker ticker = new Ticker();
         SQLiteDatabase db = this.getReadableDatabase();
-
         Cursor cursor = db.query("TB_TICKERS", null, "ID_TICKER > ?", new String[]{String.valueOf(1)}, null, null, "date" + " DESC");
-
         if (cursor.moveToNext()) {
             setTickerFromCursor(cursor, ticker);
         }
-
         return ticker;
     }
 
@@ -123,6 +122,15 @@ public class BTCRepository extends SQLiteOpenHelper {
         trade.setType(cursor.getString(cursor.getColumnIndex("TYPE")));
     }
 
+    private void setTickerFromCursor(Cursor cursor, Ticker ticker) {
+        ticker.setHigh(cursor.getDouble(cursor.getColumnIndex("HIGH")));
+        ticker.setLow(cursor.getDouble(cursor.getColumnIndex("LOW")));
+        ticker.setVol(cursor.getDouble(cursor.getColumnIndex("VOL")));
+        ticker.setLast(cursor.getDouble(cursor.getColumnIndex("LAST")));
+        ticker.setBuy(cursor.getDouble(cursor.getColumnIndex("BUY")));
+        ticker.setSell(cursor.getDouble(cursor.getColumnIndex("SELL")));
+        ticker.setDate(cursor.getInt(cursor.getColumnIndex("DATE")));
+    }
 
 
 }

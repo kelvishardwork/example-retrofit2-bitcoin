@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">AndroidCoin</string>
     <string name="refresh">Atualizar</string>
+
+    <string name="unauthorized">Dados Inválidos!</string>
+    <string name="forbidden">Acesso Inválido!</string>
+    <string name="not_Found">Não encontrado!</string>
+    <string name="unprocessable_entity">Validação com erros!</string>
+    <string name="internal_server_error">Erro de servidor interno!</string>
+    <string name="internet_not_available">Internet indisponível!</string>
+
 </resources>

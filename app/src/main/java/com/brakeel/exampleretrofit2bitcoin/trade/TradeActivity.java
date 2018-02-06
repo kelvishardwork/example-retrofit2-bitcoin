@@ -1,22 +1,27 @@
 package com.brakeel.exampleretrofit2bitcoin.trade;
 
 import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.brakeel.exampleretrofit2bitcoin.R;
-import com.brakeel.exampleretrofit2bitcoin.util.ApiClient;
 import com.brakeel.exampleretrofit2bitcoin.api.ApiService;
 import com.brakeel.exampleretrofit2bitcoin.entity.DigitalCurrency;
 import com.brakeel.exampleretrofit2bitcoin.entity.Trade;
 import com.brakeel.exampleretrofit2bitcoin.entity.TypeMethod;
+import com.brakeel.exampleretrofit2bitcoin.ticker.TickerActivity;
 import com.brakeel.exampleretrofit2bitcoin.trade.adapter.TradeListAdapter;
+import com.brakeel.exampleretrofit2bitcoin.util.ApiClient;
 
 import java.util.ArrayList;
 
@@ -43,7 +48,7 @@ public class TradeActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(true);
         getSupportActionBar().setTitle("Histórico de Cotações");
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.mipmap.ic_launcher_bitcoin);
+        //getSupportActionBar().setIcon(R.mipmap.ic_launcher_bitcoin);
         this.mContext = this;
         tradeModel = new Trade();
         lytLoading = findViewById(R.id.lytLoadingTrade);
@@ -105,6 +110,23 @@ public class TradeActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.refresh:
+                requestAPI();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     private static class ViewHolder {
         RecyclerView recyclerTrades;
     }
@@ -116,4 +138,12 @@ public class TradeActivity extends AppCompatActivity {
     public void setOnLoading() {
         lytLoading.setVisibility(View.VISIBLE);
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(TradeActivity.this, TickerActivity.class));
+
+    }
+
 }
