@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import com.brakeel.exampleretrofit2bitcoin.ticker.TickerActivity;
+import com.brakeel.exampleretrofit2bitcoin.entity.TickerActivity;
 
 
 public class SplashActivity extends AppCompatActivity {

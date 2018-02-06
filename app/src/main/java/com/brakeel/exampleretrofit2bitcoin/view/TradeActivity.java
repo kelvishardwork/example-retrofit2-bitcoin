@@ -1,4 +1,4 @@
-package com.brakeel.exampleretrofit2bitcoin.trade;
+package com.brakeel.exampleretrofit2bitcoin.entity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -16,12 +16,8 @@ import android.widget.Toast;
 
 import com.brakeel.exampleretrofit2bitcoin.R;
 import com.brakeel.exampleretrofit2bitcoin.api.ApiService;
-import com.brakeel.exampleretrofit2bitcoin.entity.DigitalCurrency;
-import com.brakeel.exampleretrofit2bitcoin.entity.Trade;
-import com.brakeel.exampleretrofit2bitcoin.entity.TypeMethod;
 import com.brakeel.exampleretrofit2bitcoin.repository.TradeBO;
-import com.brakeel.exampleretrofit2bitcoin.ticker.TickerActivity;
-import com.brakeel.exampleretrofit2bitcoin.trade.adapter.TradeListAdapter;
+import com.brakeel.exampleretrofit2bitcoin.adapter.TradeListAdapter;
 import com.brakeel.exampleretrofit2bitcoin.util.ApiClient;
 
 import java.util.ArrayList;
