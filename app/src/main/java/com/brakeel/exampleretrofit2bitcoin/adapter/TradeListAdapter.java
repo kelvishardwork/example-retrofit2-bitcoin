@@ -1,4 +1,4 @@
-package com.brakeel.exampleretrofit2bitcoin.trade.adapter;
+package com.brakeel.exampleretrofit2bitcoin.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -13,9 +13,8 @@ import com.brakeel.exampleretrofit2bitcoin.viewholder.TradeViewHolder;
 import java.util.ArrayList;
 
 /**
- * Created by Kelvis Borges on 05/02/2018.
+ * Adaptador para manipular RecyclerView para a Lista de Trades
  */
-
 public class TradeListAdapter extends RecyclerView.Adapter<TradeViewHolder> {
 
     private ArrayList<Trade> mListTrades;
@@ -27,6 +26,8 @@ public class TradeListAdapter extends RecyclerView.Adapter<TradeViewHolder> {
     @Override
     public TradeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
+
+        // Infla o layout da linha e faz uso na listagem
         LayoutInflater inflater = LayoutInflater.from(context);
         View cardView = inflater.inflate(R.layout.row_trade_list, parent, false);
         return new TradeViewHolder(cardView);
@@ -35,6 +36,7 @@ public class TradeListAdapter extends RecyclerView.Adapter<TradeViewHolder> {
 
     @Override
     public void onBindViewHolder(TradeViewHolder holder, int position) {
+        // Obtém item da lista
         Trade trade = this.mListTrades.get(position);
         holder.bindData(trade);
     }

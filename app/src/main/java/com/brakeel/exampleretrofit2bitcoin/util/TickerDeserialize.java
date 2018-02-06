@@ -9,10 +9,6 @@ import com.google.gson.JsonParseException;
 
 import java.lang.reflect.Type;
 
-/**
- * Created by Kelvis Borges on 05/02/2018.
- */
-
 public class TickerDeserialize implements JsonDeserializer<Object> {
     @Override
     public Object deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {

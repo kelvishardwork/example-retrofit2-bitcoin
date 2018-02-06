@@ -1,11 +1,8 @@
 package com.brakeel.exampleretrofit2bitcoin.entity;
 
-import android.support.v7.widget.RecyclerView;
-
 /**
- * Created by Kelvis Borges on 05/02/2018.
+ * Classe Model de Ticker, que vai definir as informações com o resumo das últimas 24 horas de negociações.
  */
-
 public class Ticker {
 
     private Double high;
@@ -14,20 +11,7 @@ public class Ticker {
     private Double last;
     private Double buy;
     private Double sell;
-    private Integer date;
-
-    @Override
-    public String toString() {
-        return "Ticker{" +
-                "high=" + high +
-                ", low=" + low +
-                ", vol=" + vol +
-                ", last=" + last +
-                ", buy=" + buy +
-                ", sell=" + sell +
-                ", date=" + date +
-                '}';
-    }
+    private int date;
 
     public Double getHigh() {
         return high;
@@ -77,11 +61,24 @@ public class Ticker {
         this.sell = sell;
     }
 
-    public Integer getDate() {
+    public int getDate() {
         return date;
     }
 
-    public void setDate(Integer date) {
+    public void setDate(int date) {
         this.date = date;
+    }
+
+    @Override
+    public String toString() {
+        return "Ticker{" +
+                "high=" + high +
+                ", low=" + low +
+                ", vol=" + vol +
+                ", last=" + last +
+                ", buy=" + buy +
+                ", sell=" + sell +
+                ", date=" + date +
+                '}';
     }
 }

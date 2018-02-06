@@ -1,9 +1,8 @@
 package com.brakeel.exampleretrofit2bitcoin.util;
 
 /**
- * Created by Kelvis Borges on 05/02/2018.
+ * Classes responsavel pelos atributos estaticos fornecidos para a API
  */
-
 public class ApiClient {
 
     public static final String BASE_URL = "https://www.mercadobitcoin.net/api/";

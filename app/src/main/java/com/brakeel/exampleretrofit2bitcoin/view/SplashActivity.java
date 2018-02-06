@@ -1,12 +1,13 @@
-package com.brakeel.exampleretrofit2bitcoin;
+package com.brakeel.exampleretrofit2bitcoin.view;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import com.brakeel.exampleretrofit2bitcoin.entity.TickerActivity;
-
-
+/**
+ * Classe Responsável por cuidas da atividade da Primeira Tela do APlicativo, uma SplashScreen
+ * Após 20000 milisegundos é chamado a próxima tela
+ */
 public class SplashActivity extends AppCompatActivity {
 
     @Override

@@ -1,22 +1,21 @@
 package com.brakeel.exampleretrofit2bitcoin.entity;
 
 /**
- * Created by Kelvis Borges on 05/02/2018.
+ * Classe Model de Trade, que vai definir um Histórico de negociações realizadas.
  */
-
 public class Trade {
 
-    private Integer date;
+    private int date;
     private Double price;
     private Double amount;
     private Integer tid;
     private String type;
 
-    public Integer getDate() {
+    public int getDate() {
         return date;
     }
 
-    public void setDate(Integer date) {
+    public void setDate(int date) {
         this.date = date;
     }
 

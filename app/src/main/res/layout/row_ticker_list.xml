@@ -43,9 +43,9 @@
 
             <TextView
                 android:id="@+id/tvTickerLast"
+                android:layout_below="@+id/tvTitleCoin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tvTitleCoin"
                 android:layout_marginLeft="19dp"
                 android:layout_marginRight="19dp"
                 android:layout_marginStart="19dp"
@@ -63,7 +63,7 @@
                 android:layout_marginStart="19dp"
                 android:layout_toEndOf="@+id/ivBitcoin"
                 android:layout_toRightOf="@+id/ivBitcoin"
-                android:text="05/02/2018" />
+                android:text="Data: " />
 
             <TextView
                 android:id="@+id/tvTickerHigh"

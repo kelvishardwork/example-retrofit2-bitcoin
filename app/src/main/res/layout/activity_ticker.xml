@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context="com.brakeel.exampleretrofit2bitcoin.ticker.TickerActivity">
+    tools:context="com.brakeel.exampleretrofit2bitcoin.view.TickerActivity">
 
     <RelativeLayout
         android:id="@+id/lytLoading"

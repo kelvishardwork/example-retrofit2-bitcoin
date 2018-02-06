@@ -1,4 +1,4 @@
-package com.brakeel.exampleretrofit2bitcoin.entity;
+package com.brakeel.exampleretrofit2bitcoin.view;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,8 +15,12 @@ import android.widget.Toast;
 
 import com.brakeel.exampleretrofit2bitcoin.R;
 import com.brakeel.exampleretrofit2bitcoin.api.ApiService;
+import com.brakeel.exampleretrofit2bitcoin.entity.DigitalCurrency;
+import com.brakeel.exampleretrofit2bitcoin.entity.Ticker;
+import com.brakeel.exampleretrofit2bitcoin.entity.TypeMethod;
 import com.brakeel.exampleretrofit2bitcoin.repository.TickerBO;
 import com.brakeel.exampleretrofit2bitcoin.util.ApiClient;
+import com.brakeel.exampleretrofit2bitcoin.util.CheckConnection;
 import com.brakeel.exampleretrofit2bitcoin.util.TickerDeserialize;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -30,6 +34,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import static com.brakeel.exampleretrofit2bitcoin.util.DateConvert.epochTimeToData;
 import static com.brakeel.exampleretrofit2bitcoin.util.PriceConvert.priceCurrency;
 
+/**
+ * Classe Responsável por cuidar da Atividade da Tela de Ticker
+ */
 public class TickerActivity extends AppCompatActivity {
 
     private ViewHolder mViewHolder = new ViewHolder();
@@ -39,6 +46,7 @@ public class TickerActivity extends AppCompatActivity {
     private TickerBO tickerBO;
     private Gson gson;
     private RelativeLayout lytLoading;
+    private CheckConnection checkConnection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,17 +58,18 @@ public class TickerActivity extends AppCompatActivity {
         getSupportActionBar().setIcon(R.mipmap.ic_launcher_bitcoin);
         tickerModel = new Ticker();
         tickerBO = new TickerBO(this);
+        checkConnection = new CheckConnection(this);
+        context = getApplicationContext();
 
+        // Recuperar as views que serão exibidas e manipuladas da tela
         this.mViewHolder.row_ticker_list = findViewById(R.id.row_ticker_list);
         this.mViewHolder.tvTickerLast = (TextView) findViewById(R.id.tvTickerLast);
         this.mViewHolder.tvTickerHigh = (TextView) findViewById(R.id.tvTickerHigh);
         this.mViewHolder.tvTickerLow = (TextView) findViewById(R.id.tvTickerLow);
         this.mViewHolder.tvTickerVol = (TextView) findViewById(R.id.tvTickerVol);
         this.mViewHolder.tvDate = (TextView) findViewById(R.id.tvDate);
-
-        context = getApplicationContext();
-        gson = new GsonBuilder().registerTypeAdapter(Ticker.class, new TickerDeserialize()).create();
         lytLoading = findViewById(R.id.lytLoading);
+        gson = new GsonBuilder().registerTypeAdapter(Ticker.class, new TickerDeserialize()).create();
         setOffLoading();
     }
 
@@ -71,11 +80,20 @@ public class TickerActivity extends AppCompatActivity {
         mViewHolder.row_ticker_list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(TickerActivity.this, TradeActivity.class));
+                if (checkConnection.internetConnectionExists(context)) {
+                    startActivity(new Intent(TickerActivity.this, TradeActivity.class));
+                } else {
+                    Toast.makeText(context, "Por favor, ative a conexão à internet.", Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
 
+    /**
+     * Chamada da API com Retrofit
+     *
+     * @param gson Recebe por parametro um Gson já feito o deserielize
+     */
     private void requestAPI(Gson gson) {
         setOnLoading();
         Retrofit retrofit = new Retrofit
@@ -140,6 +158,9 @@ public class TickerActivity extends AppCompatActivity {
         this.mViewHolder.tvDate.setText("Data: " + epochTimeToData(this.tickerModel.getDate()));
     }
 
+    /**
+     * Classe ViewHolder
+     */
     private static class ViewHolder {
         TextView tvTickerLast;
         TextView tvTickerHigh;
@@ -151,6 +172,7 @@ public class TickerActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        // Infla o menu para habilitar os icones superiores
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
         return super.onCreateOptionsMenu(menu);
@@ -158,18 +180,30 @@ public class TickerActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        // Cuida da identificação dos cliques
         switch (item.getItemId()) {
             case R.id.refresh:
-                requestAPI(gson);
+                if (checkConnection.internetConnectionExists(context)) {
+                    requestAPI(gson);
+                } else {
+                    Toast.makeText(context, "Por favor, para atualizar os dados ative a conexão à internet.", Toast.LENGTH_LONG).show();
+                }
                 break;
+
         }
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Método responsável por Ausentar o progressbar
+     */
     public void setOffLoading() {
         lytLoading.setVisibility(View.GONE);
     }
 
+    /**
+     * Método responsável por Ativar a visualizacao do Progressbar
+     */
     public void setOnLoading() {
         lytLoading.setVisibility(View.VISIBLE);
     }

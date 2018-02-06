@@ -13,9 +13,8 @@ import com.brakeel.exampleretrofit2bitcoin.util.Constants;
 import java.util.ArrayList;
 
 /**
- * Created by Kelvis Borges on 05/02/2018.
+ * Classe responsável pela criação do banco, suas tabelas e persistência de dados
  */
-
 public class BTCRepository extends SQLiteOpenHelper {
 
     //private static final int ID = 1;
@@ -26,6 +25,8 @@ public class BTCRepository extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+
+        // Query de Criação de Tabela TB_TICKERS
         StringBuilder query = new StringBuilder();
         query.append("CREATE TABLE IF NOT EXISTS TB_TICKERS( ");
         query.append(" ID_TICKER INTEGER PRIMARY KEY AUTOINCREMENT,");
@@ -37,8 +38,8 @@ public class BTCRepository extends SQLiteOpenHelper {
         query.append(" SELL REAL NOT NULL,");
         query.append(" DATE INTEGER NOT NULL)");
         db.execSQL(query.toString());
-        //popularBD(db);
 
+        // Query de Criação de Tabela TB_TRADES
         query = new StringBuilder();
         query.append("CREATE TABLE IF NOT EXISTS TB_TRADES( ");
         query.append(" ID_TRADE INTEGER PRIMARY KEY AUTOINCREMENT,");
@@ -54,7 +55,11 @@ public class BTCRepository extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     }
 
-    //Métodos Ticker
+    /**
+     * Inserção de dados de Tickers
+     *
+     * @param ticker Faz o mapeamento a partir desse objeto no banco
+     */
     public void addTicker(Ticker ticker) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -67,10 +72,20 @@ public class BTCRepository extends SQLiteOpenHelper {
         contentValues.put("DATE", ticker.getDate());
         db.insert("TB_TICKERS", null, contentValues);
     }
+
+    /**
+     * Limpa a tabela TB_TICKERS pra poder inserir novos dados
+     */
     public void truncateTicker() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("delete from TB_TICKERS");
     }
+
+    /**
+     * Buscar o único Ticker
+     *
+     * @return um Objeto Ticker
+     */
     public Ticker getTicker() {
         Ticker ticker = new Ticker();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -80,6 +95,13 @@ public class BTCRepository extends SQLiteOpenHelper {
         }
         return ticker;
     }
+
+    /**
+     * Faz a recuperação de dados da tabela para o objeto Ticker
+     *
+     * @param cursor Requer o cursor para poder mapear as tuplas
+     * @param ticker Objeto para mapear fazendo um "casting" para se obter um Objeto Ticker
+     */
     private void setTickerFromCursor(Cursor cursor, Ticker ticker) {
         ticker.setHigh(cursor.getDouble(cursor.getColumnIndex("HIGH")));
         ticker.setLow(cursor.getDouble(cursor.getColumnIndex("LOW")));
@@ -90,7 +112,10 @@ public class BTCRepository extends SQLiteOpenHelper {
         ticker.setDate(cursor.getInt(cursor.getColumnIndex("DATE")));
     }
 
-    //Métodos Trade
+    /**
+     * Inserção de dados de Trade
+     * @param trade Faz o mapeamento a partir desse objeto no banco
+     */
     public void addTrade(Trade trade) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -101,10 +126,19 @@ public class BTCRepository extends SQLiteOpenHelper {
         contentValues.put("TYPE", trade.getType());
         db.insert("TB_TRADES", null, contentValues);
     }
+
+    /**
+     * Limpa a tabela TB_TRADES pra poder inserir novos dados
+     */
     public void truncateTrade() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DELETE FROM TB_TRADES");
     }
+
+    /**
+     * Buscar todos os registros da tabela Trades
+     * @return Retorna uma lista de Trades, ordenadas por data em modo descrecente
+     */
     public ArrayList<Trade> getAllTrades() {
         ArrayList<Trade> listTrade = new ArrayList<Trade>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -116,6 +150,12 @@ public class BTCRepository extends SQLiteOpenHelper {
         }
         return listTrade;
     }
+
+    /**
+     * Faz a recuperação de dados da tabela para o objeto Trade
+     * @param cursor Requer o cursor para poder mapear as tuplas
+     * @param trade Objeto para mapear fazendo um "casting" para se obter um Objeto Trade
+     */
     private void setTradeFromCursor(Cursor cursor, Trade trade) {
         trade.setDate(cursor.getInt(cursor.getColumnIndex("DATE")));
         trade.setPrice(cursor.getDouble(cursor.getColumnIndex("PRICE")));
@@ -123,8 +163,6 @@ public class BTCRepository extends SQLiteOpenHelper {
         trade.setTid(cursor.getInt(cursor.getColumnIndex("TID")));
         trade.setType(cursor.getString(cursor.getColumnIndex("TYPE")));
     }
-
-
 
 
 }
