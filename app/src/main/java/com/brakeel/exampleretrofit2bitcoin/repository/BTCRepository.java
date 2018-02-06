@@ -2,12 +2,16 @@ package com.brakeel.exampleretrofit2bitcoin.repository;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.brakeel.exampleretrofit2bitcoin.entity.Ticker;
 import com.brakeel.exampleretrofit2bitcoin.entity.Trade;
 import com.brakeel.exampleretrofit2bitcoin.util.Constants;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Kelvis Borges on 05/02/2018.
@@ -19,6 +23,16 @@ public class BTCRepository extends SQLiteOpenHelper {
 
     public BTCRepository(Context context) {
         super(context, Constants.BD_NOME, null, Constants.BD_VERSAO);
+    }
+
+    private void setTickerFromCursor(Cursor cursor, Ticker ticker) {
+        ticker.setHigh(cursor.getDouble(cursor.getColumnIndex("HIGH")));
+        ticker.setLow(cursor.getDouble(cursor.getColumnIndex("LOW")));
+        ticker.setVol(cursor.getDouble(cursor.getColumnIndex("VOL")));
+        ticker.setLast(cursor.getDouble(cursor.getColumnIndex("LAST")));
+        ticker.setBuy(cursor.getDouble(cursor.getColumnIndex("BUY")));
+        ticker.setSell(cursor.getDouble(cursor.getColumnIndex("SELL")));
+        ticker.setDate(cursor.getInt(cursor.getColumnIndex("DATE")));
     }
 
     @Override
@@ -51,6 +65,7 @@ public class BTCRepository extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     }
 
+
     public void addTicker(Ticker ticker) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -75,6 +90,38 @@ public class BTCRepository extends SQLiteOpenHelper {
         db.insert("TB_TRADES", null, contentValues);
     }
 
+    public Ticker getTicker(int idPessoa) {
+        Ticker ticker = new Ticker();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query("TB_TICKERS", null, "ID_TICKER > ?", new String[]{String.valueOf(1)}, null, null, "date" + " DESC");
+
+        if (cursor.moveToNext()) {
+            setTickerFromCursor(cursor, ticker);
+        }
+
+        return ticker;
+    }
+
+    public List<Trade> getAllTrades() {
+        List<Trade> listTrade = new ArrayList<Trade>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query("TB_TRADES", null, null, null, null, null, "date" + " DESC");
+        while (cursor.moveToNext()) {
+            Trade trade = new Trade();
+            setTradeFromCursor(cursor, trade);
+            listTrade.add(trade);
+        }
+        return listTrade;
+    }
+
+    private void setTradeFromCursor(Cursor cursor, Trade trade) {
+        trade.setDate(cursor.getInt(cursor.getColumnIndex("DATE")));
+        trade.setPrice(cursor.getDouble(cursor.getColumnIndex("PRICE")));
+        trade.setAmount(cursor.getDouble(cursor.getColumnIndex("AMOUNT")));
+        trade.setTid(cursor.getInt(cursor.getColumnIndex("TID")));
+        trade.setType(cursor.getString(cursor.getColumnIndex("TYPE")));
+    }
 
 
 

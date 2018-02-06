@@ -17,6 +17,7 @@
             android:padding="15dp">
 
             <ImageView
+                android:layout_margin="30dp"
                 android:id="@+id/ivBitcoin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -89,7 +90,8 @@
                 android:layout_alignEnd="@+id/tvTickerLast"
                 android:layout_alignRight="@+id/tvTickerLast"
                 android:layout_below="@+id/tvTickerHigh"
-                android:text="Menor: " />
+                android:text="Menor: "
+                android:layout_toLeftOf="@+id/tvTickerHigh" />
 
 
         </RelativeLayout>
