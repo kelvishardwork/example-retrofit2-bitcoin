@@ -6,17 +6,17 @@ package com.brakeel.exampleretrofit2bitcoin.entity;
 
 public class Trade {
 
-    private Double date;
+    private Integer date;
     private Double price;
     private Double amount;
     private Integer tid;
     private String type;
 
-    public Double getDate() {
+    public Integer getDate() {
         return date;
     }
 
-    public void setDate(Double date) {
+    public void setDate(Integer date) {
         this.date = date;
     }
 

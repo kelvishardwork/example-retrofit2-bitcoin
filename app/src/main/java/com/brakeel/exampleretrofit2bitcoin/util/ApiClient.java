@@ -1,4 +1,4 @@
-package com.brakeel.exampleretrofit2bitcoin.api;
+package com.brakeel.exampleretrofit2bitcoin.util;
 
 /**
  * Created by Kelvis Borges on 05/02/2018.
@@ -14,10 +14,4 @@ public class ApiClient {
     public static final int UNPROCESSABLE_ENTITY = 422;
     public static final int INTERNAL_SERVER_ERROR = 500;
     public static final int INTERNET_NOT_AVAILABLE = 901;
-
-
-
-
-
-
 }
