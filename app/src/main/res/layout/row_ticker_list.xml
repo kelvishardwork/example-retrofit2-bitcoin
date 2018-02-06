@@ -17,11 +17,12 @@
             android:padding="15dp">
 
             <ImageView
-                android:layout_margin="30dp"
                 android:id="@+id/ivBitcoin"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_centerVertical="true"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
                 android:gravity="center_vertical"
                 android:src="@mipmap/ic_launcher_bitcoin" />
 
@@ -41,16 +42,6 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/tvDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/tvTickerLast"
-                android:layout_alignStart="@+id/tvTickerLast"
-                android:layout_below="@+id/tvTickerLast"
-                android:text="05/02/2018"
-                android:textStyle="italic|bold" />
-
-            <TextView
                 android:id="@+id/tvTickerLast"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -63,35 +54,53 @@
                 android:text="Último: " />
 
             <TextView
+                android:id="@+id/tvDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvTickerLast"
+                android:layout_marginLeft="19dp"
+                android:layout_marginRight="19dp"
+                android:layout_marginStart="19dp"
+                android:layout_toEndOf="@+id/ivBitcoin"
+                android:layout_toRightOf="@+id/ivBitcoin"
+                android:text="05/02/2018" />
+
+            <TextView
                 android:id="@+id/tvTickerHigh"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/tvDate"
+                android:layout_marginLeft="19dp"
+                android:layout_marginRight="19dp"
+                android:layout_marginStart="19dp"
                 android:layout_toEndOf="@+id/ivBitcoin"
-                android:layout_alignBottom="@+id/ivBitcoin"
-                android:layout_alignLeft="@+id/tvTickerLast"
-                android:layout_alignStart="@+id/tvTickerLast"
+                android:layout_toRightOf="@+id/ivBitcoin"
                 android:text="Maior: " />
 
-
-            <TextView
-                android:id="@+id/tvTickerVol"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/tvTickerHigh"
-                android:layout_alignParentBottom="true"
-                android:layout_alignStart="@+id/tvTickerHigh"
-                android:text="Em 24hs: " />
 
             <TextView
                 android:id="@+id/tvTickerLow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toStartOf="@+id/tvTickerHigh"
-                android:layout_alignEnd="@+id/tvTickerLast"
-                android:layout_alignRight="@+id/tvTickerLast"
                 android:layout_below="@+id/tvTickerHigh"
-                android:text="Menor: "
-                android:layout_toLeftOf="@+id/tvTickerHigh" />
+                android:layout_marginLeft="19dp"
+                android:layout_marginRight="19dp"
+                android:layout_marginStart="19dp"
+                android:layout_toEndOf="@+id/ivBitcoin"
+                android:layout_toRightOf="@+id/ivBitcoin"
+                android:text="Menor: " />
+
+            <TextView
+                android:id="@+id/tvTickerVol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvTickerLow"
+                android:layout_marginLeft="19dp"
+                android:layout_marginRight="19dp"
+                android:layout_marginStart="19dp"
+                android:layout_toEndOf="@+id/ivBitcoin"
+                android:layout_toRightOf="@+id/ivBitcoin"
+                android:text="Vol. 24hs: " />
 
 
         </RelativeLayout>

@@ -2,8 +2,8 @@ package com.brakeel.exampleretrofit2bitcoin.ticker;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,13 +14,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.brakeel.exampleretrofit2bitcoin.R;
-import com.brakeel.exampleretrofit2bitcoin.util.ApiClient;
 import com.brakeel.exampleretrofit2bitcoin.api.ApiService;
-import com.brakeel.exampleretrofit2bitcoin.entity.Ticker;
 import com.brakeel.exampleretrofit2bitcoin.entity.DigitalCurrency;
+import com.brakeel.exampleretrofit2bitcoin.entity.Ticker;
 import com.brakeel.exampleretrofit2bitcoin.entity.TypeMethod;
 import com.brakeel.exampleretrofit2bitcoin.repository.BTCRepository;
 import com.brakeel.exampleretrofit2bitcoin.trade.TradeActivity;
+import com.brakeel.exampleretrofit2bitcoin.util.ApiClient;
 import com.brakeel.exampleretrofit2bitcoin.util.TickerDeserialize;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -30,6 +30,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.brakeel.exampleretrofit2bitcoin.util.DateConvert.epochTimeToData;
+import static com.brakeel.exampleretrofit2bitcoin.util.PriceConvert.priceCurrency;
 
 public class TickerActivity extends AppCompatActivity {
 
@@ -131,11 +134,11 @@ public class TickerActivity extends AppCompatActivity {
     }
 
     private void setData() {
-        this.mViewHolder.tvTickerLast.setText("Último: " + String.valueOf(this.tickerModel.getLast()));
-        this.mViewHolder.tvTickerHigh.setText("Maior: " + String.valueOf(this.tickerModel.getHigh()));
-        this.mViewHolder.tvTickerLow.setText("Menor: " + String.valueOf(this.tickerModel.getLow()));
-        this.mViewHolder.tvTickerVol.setText("Vol. 24hs: " + String.valueOf(this.tickerModel.getVol()));
-        this.mViewHolder.tvDate.setText("Data: " + String.valueOf(this.tickerModel.getDate()));
+        this.mViewHolder.tvTickerLast.setText("Último: " + priceCurrency(this.tickerModel.getLast()));
+        this.mViewHolder.tvTickerHigh.setText("Maior: " + priceCurrency(this.tickerModel.getHigh()));
+        this.mViewHolder.tvTickerLow.setText("Menor: " + priceCurrency(this.tickerModel.getLow()));
+        this.mViewHolder.tvTickerVol.setText("Vol. 24hs: " + priceCurrency(this.tickerModel.getVol()));
+        this.mViewHolder.tvDate.setText("Data: " + epochTimeToData(this.tickerModel.getDate()));
     }
 
     private static class ViewHolder {
