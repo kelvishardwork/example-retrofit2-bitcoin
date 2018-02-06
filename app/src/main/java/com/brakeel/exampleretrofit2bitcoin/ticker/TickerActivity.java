@@ -18,7 +18,7 @@ import com.brakeel.exampleretrofit2bitcoin.api.ApiService;
 import com.brakeel.exampleretrofit2bitcoin.entity.DigitalCurrency;
 import com.brakeel.exampleretrofit2bitcoin.entity.Ticker;
 import com.brakeel.exampleretrofit2bitcoin.entity.TypeMethod;
-import com.brakeel.exampleretrofit2bitcoin.repository.BTCRepository;
+import com.brakeel.exampleretrofit2bitcoin.repository.TickerBO;
 import com.brakeel.exampleretrofit2bitcoin.trade.TradeActivity;
 import com.brakeel.exampleretrofit2bitcoin.util.ApiClient;
 import com.brakeel.exampleretrofit2bitcoin.util.TickerDeserialize;
@@ -40,7 +40,7 @@ public class TickerActivity extends AppCompatActivity {
     private static final String TAG = "TickerActivity";
     private Ticker tickerModel;
     private Context context;
-    private BTCRepository BTCRepository;
+    private TickerBO tickerBO;
     private Gson gson;
     private RelativeLayout lytLoading;
 
@@ -53,7 +53,7 @@ public class TickerActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.mipmap.ic_launcher_bitcoin);
         tickerModel = new Ticker();
-        BTCRepository = new BTCRepository(this);
+        tickerBO = new TickerBO(this);
 
         this.mViewHolder.row_ticker_list = findViewById(R.id.row_ticker_list);
         this.mViewHolder.tvTickerLast = (TextView) findViewById(R.id.tvTickerLast);
@@ -66,9 +66,12 @@ public class TickerActivity extends AppCompatActivity {
         gson = new GsonBuilder().registerTypeAdapter(Ticker.class, new TickerDeserialize()).create();
         lytLoading = findViewById(R.id.lytLoading);
         setOffLoading();
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
         requestAPI(gson);
-
         mViewHolder.row_ticker_list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,11 +119,9 @@ public class TickerActivity extends AppCompatActivity {
                 } else {
                     Ticker t = response.body();
                     if (t != null) {
-                        Log.i(TAG, "Body: " + String.valueOf(response.body()));
-                        tickerModel = t;
-                        BTCRepository.addTicker(t);
-                        tickerModel = BTCRepository.getTicker();
-                        Log.i(TAG, "Banco : " + BTCRepository.getTicker().toString());
+                        tickerBO.insert(t);
+                        tickerModel = tickerBO.getTicker();
+                        Log.i(TAG, "Banco Ticker : " + tickerBO.getTicker().toString());
                         setOffLoading();
                         setData();
                     }

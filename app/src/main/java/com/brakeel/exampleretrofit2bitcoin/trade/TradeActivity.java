@@ -19,6 +19,7 @@ import com.brakeel.exampleretrofit2bitcoin.api.ApiService;
 import com.brakeel.exampleretrofit2bitcoin.entity.DigitalCurrency;
 import com.brakeel.exampleretrofit2bitcoin.entity.Trade;
 import com.brakeel.exampleretrofit2bitcoin.entity.TypeMethod;
+import com.brakeel.exampleretrofit2bitcoin.repository.TradeBO;
 import com.brakeel.exampleretrofit2bitcoin.ticker.TickerActivity;
 import com.brakeel.exampleretrofit2bitcoin.trade.adapter.TradeListAdapter;
 import com.brakeel.exampleretrofit2bitcoin.util.ApiClient;
@@ -38,6 +39,7 @@ public class TradeActivity extends AppCompatActivity {
     private Trade tradeModel;
     private RelativeLayout lytLoading;
     private ArrayList<Trade> trades;
+    private TradeBO tradeBO;
     TradeListAdapter tradeListAdapter;
     Context mContext;
 
@@ -51,6 +53,7 @@ public class TradeActivity extends AppCompatActivity {
         //getSupportActionBar().setIcon(R.mipmap.ic_launcher_bitcoin);
         this.mContext = this;
         tradeModel = new Trade();
+        tradeBO = new TradeBO(this);
         lytLoading = findViewById(R.id.lytLoadingTrade);
 
         // Obtendo a recycleview
@@ -58,8 +61,6 @@ public class TradeActivity extends AppCompatActivity {
 
         setOffLoading();
         requestAPI();
-
-
     }
 
     private void requestAPI() {
@@ -81,23 +82,17 @@ public class TradeActivity extends AppCompatActivity {
                     trades = response.body();
                     if (!trades.isEmpty()) {
                         Toast.makeText(getApplicationContext(), " Dados Encontrados ", Toast.LENGTH_LONG).show();
-                        for (Trade t : trades) {
-                            Log.i(TAG, t.getTid() + " - Preço: " + t.getPrice());
-                        }
+                        tradeBO.insertList(trades);
+                        Log.i(TAG, "Banco TRADE : " + tradeBO.getList().toString());
+                        setOffLoading();
 
                         // Definindo adapter
-                        tradeListAdapter = new TradeListAdapter(trades);
+                        tradeListAdapter = new TradeListAdapter(tradeBO.getList());
                         mViewHolder.recyclerTrades.setAdapter(tradeListAdapter);
-                        // 3 - Definir layout
+                        //  Definir layout
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
                         mViewHolder.recyclerTrades.setLayoutManager(linearLayoutManager);
-
-                        //tickerModel = t;
-                        //tickerRepository.addTicker(t);
-                        setOffLoading();
-                        //setData();
                     }
-
                 }
             }
 
@@ -143,7 +138,6 @@ public class TradeActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         startActivity(new Intent(TradeActivity.this, TickerActivity.class));
-
     }
 
 }

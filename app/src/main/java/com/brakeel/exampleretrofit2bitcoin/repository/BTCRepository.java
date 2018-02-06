@@ -11,7 +11,6 @@ import com.brakeel.exampleretrofit2bitcoin.entity.Trade;
 import com.brakeel.exampleretrofit2bitcoin.util.Constants;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Kelvis Borges on 05/02/2018.
@@ -55,9 +54,8 @@ public class BTCRepository extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     }
 
-
+    //Métodos Ticker
     public void addTicker(Ticker ticker) {
-        truncateTicker();
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("HIGH", ticker.getHigh());
@@ -69,29 +67,10 @@ public class BTCRepository extends SQLiteOpenHelper {
         contentValues.put("DATE", ticker.getDate());
         db.insert("TB_TICKERS", null, contentValues);
     }
-
-    public void addTrade(Trade trade) {
-        truncateTrade();
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("DATE", trade.getDate());
-        contentValues.put("PRICE", trade.getPrice());
-        contentValues.put("AMOUNT", trade.getAmount());
-        contentValues.put("TID", trade.getTid());
-        contentValues.put("TYPE", trade.getType());
-        db.insert("TB_TRADES", null, contentValues);
-    }
-
-    public void truncateTrade() {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("DELETE FROM TB_TRADES");
-    }
-
     public void truncateTicker() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("delete from TB_TICKERS");
     }
-
     public Ticker getTicker() {
         Ticker ticker = new Ticker();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -101,27 +80,6 @@ public class BTCRepository extends SQLiteOpenHelper {
         }
         return ticker;
     }
-
-    public List<Trade> getAllTrades() {
-        List<Trade> listTrade = new ArrayList<Trade>();
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query("TB_TRADES", null, null, null, null, null, "date" + " DESC");
-        while (cursor.moveToNext()) {
-            Trade trade = new Trade();
-            setTradeFromCursor(cursor, trade);
-            listTrade.add(trade);
-        }
-        return listTrade;
-    }
-
-    private void setTradeFromCursor(Cursor cursor, Trade trade) {
-        trade.setDate(cursor.getInt(cursor.getColumnIndex("DATE")));
-        trade.setPrice(cursor.getDouble(cursor.getColumnIndex("PRICE")));
-        trade.setAmount(cursor.getDouble(cursor.getColumnIndex("AMOUNT")));
-        trade.setTid(cursor.getInt(cursor.getColumnIndex("TID")));
-        trade.setType(cursor.getString(cursor.getColumnIndex("TYPE")));
-    }
-
     private void setTickerFromCursor(Cursor cursor, Ticker ticker) {
         ticker.setHigh(cursor.getDouble(cursor.getColumnIndex("HIGH")));
         ticker.setLow(cursor.getDouble(cursor.getColumnIndex("LOW")));
@@ -131,6 +89,42 @@ public class BTCRepository extends SQLiteOpenHelper {
         ticker.setSell(cursor.getDouble(cursor.getColumnIndex("SELL")));
         ticker.setDate(cursor.getInt(cursor.getColumnIndex("DATE")));
     }
+
+    //Métodos Trade
+    public void addTrade(Trade trade) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("DATE", trade.getDate());
+        contentValues.put("PRICE", trade.getPrice());
+        contentValues.put("AMOUNT", trade.getAmount());
+        contentValues.put("TID", trade.getTid());
+        contentValues.put("TYPE", trade.getType());
+        db.insert("TB_TRADES", null, contentValues);
+    }
+    public void truncateTrade() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM TB_TRADES");
+    }
+    public ArrayList<Trade> getAllTrades() {
+        ArrayList<Trade> listTrade = new ArrayList<Trade>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query("TB_TRADES", null, null, null, null, null, "date" + " DESC");
+        while (cursor.moveToNext()) {
+            Trade trade = new Trade();
+            setTradeFromCursor(cursor, trade);
+            listTrade.add(trade);
+        }
+        return listTrade;
+    }
+    private void setTradeFromCursor(Cursor cursor, Trade trade) {
+        trade.setDate(cursor.getInt(cursor.getColumnIndex("DATE")));
+        trade.setPrice(cursor.getDouble(cursor.getColumnIndex("PRICE")));
+        trade.setAmount(cursor.getDouble(cursor.getColumnIndex("AMOUNT")));
+        trade.setTid(cursor.getInt(cursor.getColumnIndex("TID")));
+        trade.setType(cursor.getString(cursor.getColumnIndex("TYPE")));
+    }
+
+
 
 
 }
