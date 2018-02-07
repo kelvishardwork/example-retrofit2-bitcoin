@@ -13,4 +13,5 @@ public class ApiClient {
     public static final int UNPROCESSABLE_ENTITY = 422;
     public static final int INTERNAL_SERVER_ERROR = 500;
     public static final int INTERNET_NOT_AVAILABLE = 901;
+    public static final int SERVICE_UNAVAILABLE = 503;
 }

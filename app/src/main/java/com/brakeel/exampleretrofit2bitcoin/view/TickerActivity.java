@@ -112,21 +112,31 @@ public class TickerActivity extends AppCompatActivity {
                     switch (response.code()) {
                         case ApiClient.UNAUTHORIZED:
                             Toast.makeText(context, R.string.unauthorized, Toast.LENGTH_SHORT).show();
+                            setOffLoading();
                             break;
                         case ApiClient.FORBIDDEN:
                             Toast.makeText(context, R.string.forbidden, Toast.LENGTH_SHORT).show();
+                            setOffLoading();
                             break;
                         case ApiClient.NOT_FOUND:
                             Toast.makeText(context, R.string.not_Found, Toast.LENGTH_SHORT).show();
+                            setOffLoading();
                             break;
                         case ApiClient.UNPROCESSABLE_ENTITY:
                             Toast.makeText(context, R.string.unprocessable_entity, Toast.LENGTH_SHORT).show();
+                            setOffLoading();
                             break;
                         case ApiClient.INTERNAL_SERVER_ERROR:
                             Toast.makeText(context, R.string.internal_server_error, Toast.LENGTH_SHORT).show();
+                            setOffLoading();
                             break;
                         case ApiClient.INTERNET_NOT_AVAILABLE:
                             Toast.makeText(context, R.string.internet_not_available, Toast.LENGTH_SHORT).show();
+                            setOffLoading();
+                            break;
+                        case ApiClient.SERVICE_UNAVAILABLE:
+                            Toast.makeText(context, R.string.service_unavailable_UNAVAILABLE, Toast.LENGTH_SHORT).show();
+                            setOffLoading();
                             break;
                     }
 
