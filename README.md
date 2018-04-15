@@ -12,6 +12,11 @@ Conceitos utilizados:
 * Utilização de RecyclerView (Adapters, ViewHolder)
 * Banco de dados e inserção e recuperação de dados em massa
 
+# Telas
+Tela Inicial: 
+<img src="./Screenshot_1518133583.png" width="800">
+
+
 Projetos Futuros:
 * Refatoração para MVP
 * Linguagem Kotlin
