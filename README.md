@@ -13,8 +13,9 @@ Conceitos utilizados:
 * Banco de dados e inserção e recuperação de dados em massa
 
 # Telas
-Tela Inicial: 
-<img src="./Screenshot_1518133583.png" width="800">
+<img src="./Screenshot_1518133583.png" width="300">
+<img src="./Screenshot_1518133571.png" width="300">
+<img src="./Screenshot_1518133566.png" width="300">
 
 
 Projetos Futuros:
